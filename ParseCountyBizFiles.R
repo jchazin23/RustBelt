@@ -1,13 +1,13 @@
 # Raw data comes from the US Census Bureau: 
 # https://www.census.gov/econ/cbp/download/01_data/
-# Each year's complete county data is downloaded from it's own site
+# Each year's complete county data is downloaded from its own site
 # Raw files are quite large ~ 150 MB
 
 # Examples of how to generate a dataframe from the census data:
 
-biz1997 <- as.data.frame(read.delim("cbp89co.txt",header = TRUE,","),row.names=NULL)
+biz1989 <- as.data.frame(read.delim("cbp89co.txt",header = TRUE,","),row.names=NULL)
 #this adds a column that identifies the year, in case multiple years are merged
-biz1997$year = 1997
+biz1989$year = 1989
 
 biz1993 <- as.data.frame(read.delim("cbp93co.txt",header = TRUE,","),row.names=NULL)
 biz1993$year = 1993
@@ -28,7 +28,7 @@ biz2013 <- as.data.frame(read.delim("cbp13co.txt",header = TRUE,","),row.names=N
 biz2013$year = 2013
 
 ## isolate manufacturing data for each year:
-mfgTotals1997 <- subset(biz1997,subset = biz1997$sic == "20--")
+mfgTotals1989 <- subset(biz1989,subset = biz1989$sic == "20--")
 mfgTotals1993 <- subset(biz1993,subset = biz1993$sic == "20--")
 mfgTotals1997 <- subset(biz1997,subset = biz1997$sic == "20--")
 mfgTotals2001 <- subset(biz2001,subset = biz2001$naics == "31----")
@@ -43,7 +43,7 @@ rm(biz2005)
 rm(biz2001)
 rm(biz1997)
 rm(biz1993)
-rm(biz1997)
+rm(biz1989)
 
 ## Overwrite Employee number 0's by cross-referencing "employee flags".
 ## To be conservative, we will use the bottom of the range (except for
@@ -98,7 +98,7 @@ empFlagReplace <- function(mfg_subset) {
 }
 
 #Now call on all mfgTotals
-mfgTotals1997 <- empFlagReplace(mfgTotals1997)
+mfgTotals1989 <- empFlagReplace(mfgTotals1989)
 mfgTotals1993 <- empFlagReplace(mfgTotals1993)
 mfgTotals1997 <- empFlagReplace(mfgTotals1997)
 mfgTotals2001 <- empFlagReplace(mfgTotals2001)
@@ -108,7 +108,7 @@ mfgTotals2013 <- empFlagReplace(mfgTotals2013)
 
 #Final data trimming - shrinking dataframs down to the following columns:
 #fipstate, fipscty, employees, year
-mfgTotals1997 <- mfgTotals1997[,c(1,2,5,24)]
+mfgTotals1989 <- mfgTotals1989[,c(1,2,5,24)]
 mfgTotals1993 <- mfgTotals1993[,c(1,2,5,24)]
 mfgTotals1997 <- mfgTotals1997[,c(1,2,5,24)]
 mfgTotals2001 <- mfgTotals2001[,c(1,2,5,24)]
